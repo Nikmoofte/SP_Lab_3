@@ -17,10 +17,6 @@ App::App() : className{ "Lab_2_WNDCLASS" }, lable{ "Lab 2" }
     try
     {
         registerClass(className.c_str());
-        ResizeDialog::registerClass("ResizeDLG");
-
-
-
         wndHandle = CreateWindowEx(
         0,                              // Optional window styles.
         className.c_str(),              // Window class
