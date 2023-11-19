@@ -44,7 +44,6 @@ int Dialog::run()
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-    
     return (int)(msg.wParam);
 }
 

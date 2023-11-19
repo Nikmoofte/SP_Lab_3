@@ -42,7 +42,6 @@ LRESULT ResizeDialog::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
                 }
             }
             case m_Close:
-                EnableWindow(parent, true);
                 DestroyWindow(hwnd);                
                 break;
             case m_EditRow:
@@ -65,11 +64,6 @@ LRESULT ResizeDialog::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
             LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
             lpMMI->ptMinTrackSize.x = 300;
             lpMMI->ptMinTrackSize.y = 300;
-            return 0;
-        }
-        case WM_DESTROY:
-        {
-            EnableWindow(parent, true);
             return 0;
         }
         case WM_SIZE:

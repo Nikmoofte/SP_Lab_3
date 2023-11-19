@@ -1,18 +1,30 @@
-#include <Windows.h>
-#include <iostream>
-#include <string>
+#include <windows.h>
 
-#define DEBUG
-
-#include "App/App.hpp"
-
-int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE,  LPSTR szCmdLine, int nCmdShow)
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
 {
-#ifdef DEBUG
-    App app{"../src/assets/text.txt"};
-#else
-    std::string cmd{szCmdLine};
-    App app{cmd.c_str()};
-#endif
-    return app.run();
+   
+     // Perform actions based on the reason for calling.
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        // Initialize once for each new process.
+        // Return FALSE to fail DLL load.
+        break;
+
+    case DLL_THREAD_ATTACH:
+        // Do thread-specific initialization.
+        break;
+
+    case DLL_THREAD_DETACH:
+        // Do thread-specific cleanup.
+        break;
+
+    case DLL_PROCESS_DETACH:
+        // Perform any necessary cleanup.
+        break;
+    }
+    return TRUE;  // Successful DLL_PROCESS_ATTACH.
 }
