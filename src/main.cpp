@@ -4,6 +4,7 @@
 
 #define DllExport   __declspec( dllexport )
 
+
 char origin[] = "Lorem";
 char dest[] = "MMMMM";
 extern "C" DllExport void changeTextInProcces(const char* origin, const std::string& replasement);

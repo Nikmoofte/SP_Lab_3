@@ -30,27 +30,27 @@ void App::Inject(DWORD pid, const std::string &origin, const std::string &replac
     strcpy(params.replacement, replacement.c_str());
     strcpy(params.procName, "changeTextInProcces");
     
-    auto varSize = strlen(c_dllName);
+    auto varSize = sizeof(threadParams);
     LPVOID alloc = (LPVOID)VirtualAllocEx(process, 0, varSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     if (alloc == NULL) 
         throw std::runtime_error("Failed to create variable!");
 
-    if (!WriteProcessMemory(process, (LPVOID)alloc, &c_dllName, varSize, 0)) 
+    if (!WriteProcessMemory(process, (LPVOID)alloc, &params, varSize, 0)) 
         throw std::runtime_error("Failed to change variable!");
 
 
-    // auto threadProg = [](void* _params) -> void
-    // {
-    //     reinterpret_cast<void (*)(const char*, const std::string&)>(GetProcAddress
-    //         (
-    //             LoadLibrary(reinterpret_cast<threadParams*>(_params)->dllName), 
-    //             reinterpret_cast<threadParams*>(_params)->procName)
-    //         )
-    //     (
-    //         reinterpret_cast<threadParams*>(_params)->origin, 
-    //         reinterpret_cast<threadParams*>(_params)->replacement
-    //     );
-    // };
+    auto threadProg = [](void* _params) -> void
+    {
+        reinterpret_cast<void (*)(const char*, const std::string&)>(GetProcAddress
+            (
+                LoadLibrary(reinterpret_cast<threadParams*>(_params)->dllName), 
+                reinterpret_cast<threadParams*>(_params)->procName)
+            )
+        (
+            reinterpret_cast<threadParams*>(_params)->origin, 
+            reinterpret_cast<threadParams*>(_params)->replacement
+        );
+    };
     HANDLE hThread = CreateRemoteThread(process, 0, 0, (LPTHREAD_START_ROUTINE)&LoadLibraryA, (LPVOID)alloc, 0, 0);
     if (hThread == NULL) 
         throw std::runtime_error("Failed to create thread!");
