@@ -6,7 +6,7 @@ add_executable(dynamicImport src/main.cpp)
 # set_property(TARGET changeLib PROPERTY
 #     IMPORTED_IMPLIB ${dllWinProj_BINARY_DIR}/Injector.lib)
 
-add_custom_target(copy ALL COMMAND ${CMAKE_COMMAND} -E
+add_custom_target(copyD ALL COMMAND ${CMAKE_COMMAND} -E
                   copy ${dllWinProj_BINARY_DIR}/ValChanger.dll ${CMAKE_CURRENT_BINARY_DIR}
                   COMMENT "Copying dll into binary directory")
 

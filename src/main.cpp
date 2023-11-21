@@ -4,6 +4,41 @@
 
 #define DllExport   __declspec( dllexport )
 
+char origin[] = "Lorem";
+char dest[] = "MMMMM";
+extern "C" DllExport void changeTextInProcces(const char* origin, const std::string& replasement);
+
+BOOL APIENTRY DllMain( HMODULE hModule,
+                       DWORD  ul_reason_for_call,
+                       LPVOID lpReserved
+                     )
+{
+   
+     // Perform actions based on the reason for calling.
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        
+        changeTextInProcces(origin, dest);
+        // Initialize once for each new process.
+        // Return FALSE to fail DLL load.
+        break;
+
+    case DLL_THREAD_ATTACH:
+        // Do thread-specific initialization.
+        break;
+
+    case DLL_THREAD_DETACH:
+        // Do thread-specific cleanup.
+        break;
+
+    case DLL_PROCESS_DETACH:
+        // Perform any necessary cleanup.
+        break;
+    }
+    return TRUE;  // Successful DLL_PROCESS_ATTACH.
+}
+
 extern "C" DllExport void changeTextInProcces(const char* origin, const std::string& replasement) 
 {
     static constexpr size_t max_read = 128;
